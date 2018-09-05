@@ -1,21 +1,21 @@
 
-// Barra
-
-
 function Player(game) {
   this.game = game;
-  this.x = 200;
-  this.y = 620;
-
+  this.x = 210;
+  this.y = 632;
   this.img = new Image();
   this.img.src = "images/barra.png";
-
-  this.w = 100;
-  this.h = 30;
-
+  this.w = 150;
+  this.h = 20;
+  this.setListeners();
 }
 
-Player.prototype.draw = function() {
+
+var RIGHT_KEY = 39;
+var LEFT_KEY = 37;
+
+
+Player.prototype.draw = function () {
   this.game.ctx.drawImage(
     this.img,
     this.x,
@@ -26,17 +26,18 @@ Player.prototype.draw = function() {
 }
 
 
+Player.prototype.setListeners = function () {
+  document.onkeydown = function (event) {
+    if (event.keyCode == RIGHT_KEY && this.x < this.game.ctx.canvas.width - this.w) {
+      this.x += 40;
+      
+    }
+    if (event.keyCode == LEFT_KEY && this.x > 0) {
+      this.x -= 40;
+    }
+  }.bind(this);
+}
 
 
-Player.prototype.getCoord = function coord(event) {
-  this.x  = event.clientX
-  // return this.x
-}  
-  
 
 
-
-// window.addEventListener("mousemove", function (e) {
-//   this.x = e.x;
-//   this.draw()
-// })

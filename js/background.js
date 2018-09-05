@@ -1,16 +1,13 @@
 
-// // Barra
+function Background(game) {
+  this.game = game;
+  this.img = new Image()
+  this.img.src = "images/background.jpg";
+  this.x = 0;
+  this.y = 0;
+}
 
-// window.addEventListener("mousemove", function (e) {
-//   var barImage = new Image();
-//   barImage.onload = function () {
-//     // ctx.clearRect();
-//     // ctx.beginPath();
-//     ctx.drawImage(barImage, e.x, 620, 100, 30)
-
-//   }
-//   barImage.src = "images/barra.png"
-// })
-
-
+Background.prototype.draw = function() {
+  this.game.ctx.drawImage(this.img, this.x, this.y, this.game.canvas.width, this.game.canvas.height)
+}
 
