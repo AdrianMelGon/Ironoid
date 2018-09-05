@@ -10,7 +10,6 @@ Game.prototype.start = function () {
   this.interval = setInterval(function () {
     this.clear();
     this.moveAll();
-
     this.draw();
   }.bind(this), 1000 / this.fps)
 
@@ -34,12 +33,14 @@ Game.prototype.gameOver = function () {
 
 Game.prototype.reset = function () {
   this.blocksArr = [];
+  this.crossesArr = [];
   this.player = new Player(this);
   this.ball = new Ball(this);
   this.background = new Background(this);
   this.score = 0;
-  this.generateBlocks();
   this.bonusArr = [];
+  this.generateBlocks();
+  // this.generateCrosses();
 }
 
 
@@ -56,6 +57,9 @@ Game.prototype.draw = function () {
     e.draw();
   })
   this.bonusArr.forEach(function (e) {
+    e.draw();
+  })
+  this.crossesArr.forEach(function (e) {
     e.draw();
   })
   // this.bonus.draw();
@@ -92,23 +96,23 @@ Game.prototype.isCollision = function () {
     if (this.ball.arcY < e.y + e.h && this.ball.arcY > e.y && this.ball.arcX > e.x && this.ball.arcX < e.x + e.w) {
       this.ball.vArcY *= -1
       this.blocksArr.splice(index, 1);
-      if (index == 8) {
+      if (index == 64) {
         this.bonus = new Bonus(this, "css");
         this.bonusArr.push(this.bonus)
         this.bonus.x = e.x
         this.bonus.y = e.y;
 
       }
-      if (index == 67) {
+      if (index == 8) {
         this.bonus = new Bonus(this, "jazmin");
-        this.bonusArr.push(bonus)
+        this.bonusArr.push(this.bonus)
         this.bonus.x = e.x
         this.bonus.y = e.y;
 
       }
       if (index == 112) {
         this.bonus = new Bonus(this, "javascript");
-        this.bonusArr.push(bonus)
+        this.bonusArr.push(this.bonus)
         this.bonus.x = e.x
         this.bonus.y = e.y;
 
@@ -120,11 +124,40 @@ Game.prototype.isCollision = function () {
 
 
 Game.prototype.bonusCollision = function () {
-  this.bonusArr.forEach(function (e) {
-    if (e.y > 632 && e.x > this.player.x && this.e < this.player.x + this.player.w) {
-      e.vY *= -1
+  this.bonusArr.forEach(function (e, index) {
+    if (e.y > 632 && e.x > this.player.x && e.x < this.player.x + this.player.w) {
+      this.bonusArr.splice(index, 1)
+      switch (e.type) {
+        case "jazmin":
+        this.generateCrosses();
+        setTimeout(function(){
+          this.crossesArr = [];
+        }.bind(this),6000)
+          // console.log("Hola")
+          break;
+        case "javascript":
+          this.ball.vArcY -= 2
+          break;
+        case "css":
+          this.ball.vArcY -= 2
+          break;
+      }
     }
   }.bind(this))
+}
+
+
+Game.prototype.generateCrosses = function () {
+  var x = 0;
+  for (var i = 0; i < 33; i++) {
+    x += 35;
+    var y = 0;
+    for (var j = 0; j < 22; j++) {
+      y += 25
+      var cross = new JazminEffect(this, x, y)
+      this.crossesArr.push(cross);
+    }
+  }
 }
 
 
