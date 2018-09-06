@@ -27,9 +27,9 @@ Ball.prototype.move = function () {
   if (this.arcY < 0 || this.arcY > 632 && this.arcX > this.game.player.x && this.arcX < this.game.player.x + this.game.player.w) {
     this.vArcY *= -1;
   }
-  if (this.arcY + this.vArcY > canvas.height) {
-    this.game.gameOver();
-  }
+  // if (this.arcY + this.vArcY > canvas.height) {
+  //   this.game.gameOver();
+  // }
 }
 
 

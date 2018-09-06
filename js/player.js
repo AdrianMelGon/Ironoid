@@ -39,5 +39,13 @@ Player.prototype.setListeners = function () {
 }
 
 
+// this.x = document.getElementById("canvas");
+// window.onmousemove = function (e) {
+//   var wx = e.pageX;
+//   this.x = wx;
+// };
+
+
+
 
 

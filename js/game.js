@@ -1,3 +1,5 @@
+$(document).ready(function(){
+
 function Game(canvasId) {
   this.canvas = document.getElementById(canvasId)
   this.ctx = this.canvas.getContext('2d');
@@ -6,11 +8,24 @@ function Game(canvasId) {
 
 }
 
+// document.getElementById("boton").onclick = function() {this.start()};
+
+
+// $( "#boton" ).click(function() {
+//   alert( "Handler for .click() called." );
+// });
+
+
 Game.prototype.start = function () {
   this.interval = setInterval(function () {
     this.clear();
     this.moveAll();
     this.draw();
+    console.log(this.gameEnd)
+    this.checkEnd();
+    if (this.gameEnd) {
+      this.gameOver();
+    }
   }.bind(this), 1000 / this.fps)
 
 }
@@ -32,16 +47,24 @@ Game.prototype.gameOver = function () {
 
 
 Game.prototype.reset = function () {
+  this.ballsArr = [];
   this.blocksArr = [];
   this.crossesArr = [];
   this.player = new Player(this);
   this.ball = new Ball(this);
+  this.ballsArr.push(this.ball);
   this.background = new Background(this);
   this.score = 0;
   this.bonusArr = [];
   this.generateBlocks();
-  // this.generateCrosses();
+  this.jazminCounter = 0;
+  this.javascriptCounter = 0;
+  this.cssCounter = 0;
+  this.gameEnd = false;
+
 }
+// this.generateCrosses();
+
 
 
 Game.prototype.clear = function () {
@@ -52,7 +75,6 @@ Game.prototype.clear = function () {
 Game.prototype.draw = function () {
   this.background.draw();
   this.player.draw();
-  this.ball.draw();
   this.blocksArr.forEach(function (e) {
     e.draw();
   })
@@ -62,8 +84,12 @@ Game.prototype.draw = function () {
   this.crossesArr.forEach(function (e) {
     e.draw();
   })
+  this.ballsArr.forEach(function (e) {
+    e.draw();
+  })
   // this.bonus.draw();
   this.drawScore();
+  this.bonusCollision();
 }
 
 
@@ -73,7 +99,11 @@ Game.prototype.moveAll = function () {
   this.bonusArr.forEach(function (e) {
     e.move();
   })
+  this.ballsArr.forEach(function (e) {
+    e.move();
+  })
   this.bonusCollision();
+
 }
 
 
@@ -92,33 +122,37 @@ Game.prototype.generateBlocks = function () {
 
 
 Game.prototype.isCollision = function () {
-  this.blocksArr.forEach(function (e, index) {
-    if (this.ball.arcY < e.y + e.h && this.ball.arcY > e.y && this.ball.arcX > e.x && this.ball.arcX < e.x + e.w) {
-      this.ball.vArcY *= -1
-      this.blocksArr.splice(index, 1);
-      if (index == 64) {
-        this.bonus = new Bonus(this, "css");
-        this.bonusArr.push(this.bonus)
-        this.bonus.x = e.x
-        this.bonus.y = e.y;
+  this.ballsArr.forEach(function (eb) {
+    this.blocksArr.forEach(function (e, index) {
+      if (eb.arcY < e.y + e.h && eb.arcY > e.y && eb.arcX > e.x && eb.arcX < e.x + e.w) {
+        eb.vArcY *= -1
+        this.blocksArr.splice(index, 1);
+        if (index == 88 && this.cssCounter < 1) {
+          this.bonus = new Bonus(this, "css");
+          this.bonusArr.push(this.bonus)
+          this.bonus.x = e.x;
+          this.bonus.y = e.y;
+          this.cssCounter++;
 
-      }
-      if (index == 8) {
-        this.bonus = new Bonus(this, "jazmin");
-        this.bonusArr.push(this.bonus)
-        this.bonus.x = e.x
-        this.bonus.y = e.y;
+        }
+        if (index == 63 && this.jazminCounter < 1) {
+          this.bonus = new Bonus(this, "jazmin");
+          this.bonusArr.push(this.bonus)
+          this.bonus.x = e.x;
+          this.bonus.y = e.y;
+          this.jazminCounter++;
 
+        }
+        if (index == 8 && this.javascriptCounter < 1) {
+          this.bonus = new Bonus(this, "javascript");
+          this.bonusArr.push(this.bonus)
+          this.bonus.x = e.x;
+          this.bonus.y = e.y;
+          this.javascriptCounter++;
+        }
+        this.score++;
       }
-      if (index == 112) {
-        this.bonus = new Bonus(this, "javascript");
-        this.bonusArr.push(this.bonus)
-        this.bonus.x = e.x
-        this.bonus.y = e.y;
-
-      }
-      this.score++;
-    }
+    }.bind(this))
   }.bind(this))
 }
 
@@ -129,17 +163,20 @@ Game.prototype.bonusCollision = function () {
       this.bonusArr.splice(index, 1)
       switch (e.type) {
         case "jazmin":
-        this.generateCrosses();
-        setTimeout(function(){
-          this.crossesArr = [];
-        }.bind(this),6000)
-          // console.log("Hola")
+          this.generateCrosses();
+          setTimeout(function () {
+            this.crossesArr = [];
+          }.bind(this), 6000)
           break;
         case "javascript":
-          this.ball.vArcY -= 2
+          this.generateBalls()
           break;
         case "css":
-          this.ball.vArcY -= 2
+          this.background.changeBackground();
+          this.blocksArr.forEach(function (e) {
+            e.changeBlocks();
+          })
+
           break;
       }
     }
@@ -160,12 +197,35 @@ Game.prototype.generateCrosses = function () {
   }
 }
 
+Game.prototype.generateBalls = function () {
+  for (var i = 0; i < 2; i++) {
+    var bonusBall = new Ball(this)
+    this.ballsArr.push(bonusBall);
+  }
+}
+
+
+Game.prototype.checkEnd = function() {
+  var count = 0;
+  for (var i = 0; i < this.ballsArr.length; i++) {
+    if (this.ballsArr[i].arcY + this.ballsArr[i].vArcY > this.canvas.height) {
+      count++
+    }
+  }
+   if (count == this.ballsArr.length) {
+     this.gameEnd = true;
+   }
+   console.log(count)
+}
 
 Game.prototype.drawScore = function () {
   this.ctx.font = "30px Arial";
   this.ctx.fillStyle = "white";
   this.ctx.fillText(this.score, 625, 50);
 }
+
+})
+
 
 
 // if (e.y < 0 || e.y > 632 && e.x > this.game.player.x && this.e < this.game.player.x + this.game.player.w)
