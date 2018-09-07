@@ -4,9 +4,9 @@ function Bonus(game, type) {
   this.img = new Image();
   this.x = 0;
   this.y = 0;
-  this.w = 70;
+  this.w = 80;
   this.h = 80;
-  this.vX = 1;
+  this.vX = 0.5;
   this.vY = 1;
   this.type = type;
   this.chooseBonus(this.type)

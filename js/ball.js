@@ -21,17 +21,18 @@ Ball.prototype.move = function () {
   this.arcX += this.vArcX;
   this.arcY += this.vArcY;
 
-  if (this.arcX + this.vArcX > canvas.width || this.arcX + this.vArcX < 0) {
+  if (this.arcX + this.vArcX > canvas.width || this.arcX + this.vArcX < 0 ) {
     this.vArcX *= -1;
   }
   if (this.arcY < 0 || this.arcY > 632 && this.arcX > this.game.player.x && this.arcX < this.game.player.x + this.game.player.w) {
     this.vArcY *= -1;
   }
   // if (this.arcY + this.vArcY > canvas.height) {
-  //   this.game.gameOver();
+  //   this.game.ballsArr.splice(0, 1);
   // }
 }
 
 
 
 
+// || this.arcY > this.game.player.y && this.arcY < this.game.player.y + this.game.player.h

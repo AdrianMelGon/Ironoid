@@ -1,19 +1,18 @@
-$(document).ready(function(){
 
 function Game(canvasId) {
   this.canvas = document.getElementById(canvasId)
   this.ctx = this.canvas.getContext('2d');
   this.fps = 200;
   this.reset();
-
 }
 
 // document.getElementById("boton").onclick = function() {this.start()};
 
-
+// $(document).ready(function(){
 // $( "#boton" ).click(function() {
-//   alert( "Handler for .click() called." );
-// });
+//  this.start();
+// }.bind(this));
+// })
 
 
 Game.prototype.start = function () {
@@ -21,7 +20,6 @@ Game.prototype.start = function () {
     this.clear();
     this.moveAll();
     this.draw();
-    console.log(this.gameEnd)
     this.checkEnd();
     if (this.gameEnd) {
       this.gameOver();
@@ -61,9 +59,7 @@ Game.prototype.reset = function () {
   this.javascriptCounter = 0;
   this.cssCounter = 0;
   this.gameEnd = false;
-
 }
-// this.generateCrosses();
 
 
 
@@ -87,7 +83,6 @@ Game.prototype.draw = function () {
   this.ballsArr.forEach(function (e) {
     e.draw();
   })
-  // this.bonus.draw();
   this.drawScore();
   this.bonusCollision();
 }
@@ -103,7 +98,7 @@ Game.prototype.moveAll = function () {
     e.move();
   })
   this.bonusCollision();
-
+  this.player.move();
 }
 
 
@@ -121,13 +116,28 @@ Game.prototype.generateBlocks = function () {
 }
 
 
+
+// Game.prototype.audioColl = function() {
+//   var audio = new Audio("audio/choque");
+//   audio.play();
+// }
+
+// Game.prototype.audioBack = function() {
+//   var audio = new Audio("audio/fondo");
+//   audio.play();
+// }
+
+
+
+
 Game.prototype.isCollision = function () {
   this.ballsArr.forEach(function (eb) {
     this.blocksArr.forEach(function (e, index) {
       if (eb.arcY < e.y + e.h && eb.arcY > e.y && eb.arcX > e.x && eb.arcX < e.x + e.w) {
         eb.vArcY *= -1
+        mChoque.play();
         this.blocksArr.splice(index, 1);
-        if (index == 88 && this.cssCounter < 1) {
+        if (index == 8 && this.cssCounter < 1) {
           this.bonus = new Bonus(this, "css");
           this.bonusArr.push(this.bonus)
           this.bonus.x = e.x;
@@ -143,7 +153,7 @@ Game.prototype.isCollision = function () {
           this.jazminCounter++;
 
         }
-        if (index == 8 && this.javascriptCounter < 1) {
+        if (index == 88 && this.javascriptCounter < 1) {
           this.bonus = new Bonus(this, "javascript");
           this.bonusArr.push(this.bonus)
           this.bonus.x = e.x;
@@ -176,7 +186,6 @@ Game.prototype.bonusCollision = function () {
           this.blocksArr.forEach(function (e) {
             e.changeBlocks();
           })
-
           break;
       }
     }
@@ -205,17 +214,16 @@ Game.prototype.generateBalls = function () {
 }
 
 
-Game.prototype.checkEnd = function() {
+Game.prototype.checkEnd = function () {
   var count = 0;
   for (var i = 0; i < this.ballsArr.length; i++) {
     if (this.ballsArr[i].arcY + this.ballsArr[i].vArcY > this.canvas.height) {
       count++
     }
   }
-   if (count == this.ballsArr.length) {
-     this.gameEnd = true;
-   }
-   console.log(count)
+  if (count == this.ballsArr.length) {
+    this.gameEnd = true;
+  }
 }
 
 Game.prototype.drawScore = function () {
@@ -224,7 +232,7 @@ Game.prototype.drawScore = function () {
   this.ctx.fillText(this.score, 625, 50);
 }
 
-})
+
 
 
 

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <title>Ironoid</title>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script type="text/javascript" src="js/background.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
@@ -19,11 +21,11 @@
 </head>
 
 <body>
-
+  <script type="text/javascript" src="js/audio.js"></script>
   <div id="container">
     <div id="intro">
       <h2>IRONOID</h2>
-      <button id="boton">Start</button>
+      <button onclick="openGame()" id="boton">Start</button>
     </div>
     <canvas id="canvas" width="1250" height="650"></canvas> </canvas>
   </div>

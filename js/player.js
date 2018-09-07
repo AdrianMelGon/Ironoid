@@ -8,12 +8,8 @@ function Player(game) {
   this.w = 150;
   this.h = 20;
   this.setListeners();
+  this.vX = 0;
 }
-
-
-var RIGHT_KEY = 39;
-var LEFT_KEY = 37;
-
 
 Player.prototype.draw = function () {
   this.game.ctx.drawImage(
@@ -26,26 +22,51 @@ Player.prototype.draw = function () {
 }
 
 
+// -------------- CON TECLAS ---------------
+
+var RIGHT_KEY = 39;
+var LEFT_KEY = 37;
+
+
 Player.prototype.setListeners = function () {
   document.onkeydown = function (event) {
     if (event.keyCode == RIGHT_KEY && this.x < this.game.ctx.canvas.width - this.w) {
-      this.x += 40;
-      
+      this.vX += 5;
+
     }
     if (event.keyCode == LEFT_KEY && this.x > 0) {
-      this.x -= 40;
+      this.vX -= 5;
+    }
+  }.bind(this);
+  document.onkeyup= function (event) {
+    if (event.keyCode == RIGHT_KEY && this.x < this.game.ctx.canvas.width - this.w) {
+      this.vX = 0;
+
+    }
+    if (event.keyCode == LEFT_KEY && this.x > 0) {
+      this.vX = 0;
     }
   }.bind(this);
 }
 
 
-// this.x = document.getElementById("canvas");
-// window.onmousemove = function (e) {
-//   var wx = e.pageX;
-//   this.x = wx;
-// };
+Player.prototype.move = function () {
+  this.x += this.vX
+}
 
+// ------------------- CON JQUERY ----------------------
 
-
-
-
+// $(function () {
+//   var canvasWidth = $("body").width();
+//   console.log(canvasWidth);
+//   $("html").mousemove(function (e) {
+//     var newPos = e.pageX - 75;
+//     if (newPos < 0) {
+//       newPos = 0;
+//     }
+//     if (newPos > canvasWidth - 150) {
+//       newPos = canvasWidth - 150;
+//     }
+//     $("#pala").css({ left: newPos });
+//   });
+// })
