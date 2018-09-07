@@ -6,15 +6,6 @@ function Game(canvasId) {
   this.reset();
 }
 
-// document.getElementById("boton").onclick = function() {this.start()};
-
-// $(document).ready(function(){
-// $( "#boton" ).click(function() {
-//  this.start();
-// }.bind(this));
-// })
-
-
 Game.prototype.start = function () {
   this.interval = setInterval(function () {
     this.clear();
@@ -28,11 +19,9 @@ Game.prototype.start = function () {
 
 }
 
-
 Game.prototype.stop = function () {
   clearInterval(this.interval);
 }
-
 
 Game.prototype.gameOver = function () {
   this.stop();
@@ -42,7 +31,6 @@ Game.prototype.gameOver = function () {
     this.start();
   }
 }
-
 
 Game.prototype.reset = function () {
   this.ballsArr = [];
@@ -61,12 +49,9 @@ Game.prototype.reset = function () {
   this.gameEnd = false;
 }
 
-
-
 Game.prototype.clear = function () {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 }
-
 
 Game.prototype.draw = function () {
   this.background.draw();
@@ -87,7 +72,6 @@ Game.prototype.draw = function () {
   this.bonusCollision();
 }
 
-
 Game.prototype.moveAll = function () {
   this.ball.move();
   this.isCollision();
@@ -99,8 +83,8 @@ Game.prototype.moveAll = function () {
   })
   this.bonusCollision();
   this.player.move();
+ 
 }
-
 
 Game.prototype.generateBlocks = function () {
   var x = 50;
@@ -115,21 +99,6 @@ Game.prototype.generateBlocks = function () {
   }
 }
 
-
-
-// Game.prototype.audioColl = function() {
-//   var audio = new Audio("audio/choque");
-//   audio.play();
-// }
-
-// Game.prototype.audioBack = function() {
-//   var audio = new Audio("audio/fondo");
-//   audio.play();
-// }
-
-
-
-
 Game.prototype.isCollision = function () {
   this.ballsArr.forEach(function (eb) {
     this.blocksArr.forEach(function (e, index) {
@@ -137,7 +106,7 @@ Game.prototype.isCollision = function () {
         eb.vArcY *= -1
         mChoque.play();
         this.blocksArr.splice(index, 1);
-        if (index == 8 && this.cssCounter < 1) {
+        if (index == 30 && this.cssCounter < 1) {
           this.bonus = new Bonus(this, "css");
           this.bonusArr.push(this.bonus)
           this.bonus.x = e.x;
@@ -145,7 +114,7 @@ Game.prototype.isCollision = function () {
           this.cssCounter++;
 
         }
-        if (index == 63 && this.jazminCounter < 1) {
+        if (index == 53 && this.jazminCounter < 1) {
           this.bonus = new Bonus(this, "jazmin");
           this.bonusArr.push(this.bonus)
           this.bonus.x = e.x;
@@ -153,7 +122,7 @@ Game.prototype.isCollision = function () {
           this.jazminCounter++;
 
         }
-        if (index == 88 && this.javascriptCounter < 1) {
+        if (index == 8 && this.javascriptCounter < 1) {
           this.bonus = new Bonus(this, "javascript");
           this.bonusArr.push(this.bonus)
           this.bonus.x = e.x;
@@ -165,7 +134,6 @@ Game.prototype.isCollision = function () {
     }.bind(this))
   }.bind(this))
 }
-
 
 Game.prototype.bonusCollision = function () {
   this.bonusArr.forEach(function (e, index) {
@@ -192,7 +160,6 @@ Game.prototype.bonusCollision = function () {
   }.bind(this))
 }
 
-
 Game.prototype.generateCrosses = function () {
   var x = 0;
   for (var i = 0; i < 33; i++) {
@@ -212,7 +179,6 @@ Game.prototype.generateBalls = function () {
     this.ballsArr.push(bonusBall);
   }
 }
-
 
 Game.prototype.checkEnd = function () {
   var count = 0;

@@ -7,7 +7,7 @@ function Bonus(game, type) {
   this.w = 80;
   this.h = 80;
   this.vX = 0.5;
-  this.vY = 1;
+  this.vY = 0.5;
   this.type = type;
   this.chooseBonus(this.type)
 }
@@ -43,8 +43,6 @@ Bonus.prototype.move = function () {
   this.y += this.vY;
 }
 
-
-
 function JazminEffect(game, x, y) {
   this.game = game;
   this.img = new Image();
@@ -53,7 +51,6 @@ function JazminEffect(game, x, y) {
   this.y = y,
   this.w = 30, 
   this.h = 30 }
-
 
 JazminEffect.prototype.draw = function () {
 this.game.ctx.drawImage(this.img, this.x, this.y, this.w, this.h) }

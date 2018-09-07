@@ -22,8 +22,6 @@ Player.prototype.draw = function () {
 }
 
 
-// -------------- CON TECLAS ---------------
-
 var RIGHT_KEY = 39;
 var LEFT_KEY = 37;
 
@@ -39,34 +37,17 @@ Player.prototype.setListeners = function () {
     }
   }.bind(this);
   document.onkeyup= function (event) {
-    if (event.keyCode == RIGHT_KEY && this.x < this.game.ctx.canvas.width - this.w) {
+    if (event.keyCode == RIGHT_KEY) {
       this.vX = 0;
 
     }
-    if (event.keyCode == LEFT_KEY && this.x > 0) {
+    if (event.keyCode == LEFT_KEY) {
       this.vX = 0;
     }
   }.bind(this);
 }
 
-
 Player.prototype.move = function () {
   this.x += this.vX
 }
 
-// ------------------- CON JQUERY ----------------------
-
-// $(function () {
-//   var canvasWidth = $("body").width();
-//   console.log(canvasWidth);
-//   $("html").mousemove(function (e) {
-//     var newPos = e.pageX - 75;
-//     if (newPos < 0) {
-//       newPos = 0;
-//     }
-//     if (newPos > canvasWidth - 150) {
-//       newPos = canvasWidth - 150;
-//     }
-//     $("#pala").css({ left: newPos });
-//   });
-// })

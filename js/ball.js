@@ -3,8 +3,8 @@ function Ball(game) {
   this.arcX = 40;
   this.arcY = 40;
   this.radius = 5;
-  this.vArcX = -1;
-  this.vArcY = -1;
+  this.vArcX = -0.5
+  this.vArcY = -0.5;
 }
 
 
@@ -27,12 +27,5 @@ Ball.prototype.move = function () {
   if (this.arcY < 0 || this.arcY > 632 && this.arcX > this.game.player.x && this.arcX < this.game.player.x + this.game.player.w) {
     this.vArcY *= -1;
   }
-  // if (this.arcY + this.vArcY > canvas.height) {
-  //   this.game.ballsArr.splice(0, 1);
-  // }
+
 }
-
-
-
-
-// || this.arcY > this.game.player.y && this.arcY < this.game.player.y + this.game.player.h
