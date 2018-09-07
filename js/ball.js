@@ -3,8 +3,8 @@ function Ball(game) {
   this.arcX = 40;
   this.arcY = 40;
   this.radius = 5;
-  this.vArcX = -0.5
-  this.vArcY = -0.5;
+  this.vArcX = -1.2;
+  this.vArcY = -1.2;
 }
 
 
